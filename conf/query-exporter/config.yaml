@@ -1,0 +1,35 @@
+databases:
+  db1:
+    dsn: mysql://query_exporter:query_exporter@mysql-master:3306/information_schema
+    labels:
+      region: us1
+      db: primary
+
+metrics:
+  active_queries:
+    type: gauge
+    description: Number of active queries
+  customers_count:
+    type: gauge
+    description: Number of customers
+  employees_count:
+    type: gauge
+    description: Number of employees
+
+
+queries:
+  query1:
+    interval: 5
+    databases: [db1]
+    metrics: [active_queries]
+    sql: select count(*) as active_queries from information_schema.processlist where command != 'Sleep'
+  query2:
+    interval: 5
+    databases: [db1]
+    metrics: [customers_count]
+    sql: select count(*) as customers_count from classicmodels.customers
+  query3:
+    interval: 5
+    databases: [db1]
+    metrics: [employees_count]
+    sql: select count(*) as employees_count from classicmodels.employees
